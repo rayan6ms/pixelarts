@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PixelsArt</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="tiles"></div>
+    <div id="menu">
+      <div id="graphic">
+        <div id="graphic-board">
+          <h2 id="grafico">Gráfico</h2>
+          <div id="chart"></div>
+        </div>
+      </div>
+      <div id="drawing-board">
+        <section id="palette">
+          <h1 id="title">Paleta de Cores</h1>
+          <div id="color-palette">
+            <div class="color" style="background-color: rgb(0, 0, 0)"></div>
+          </div>
+          <div id="buttons">
+            <button id="button-random-color" class="button">
+              <span>Cores aleatórias</span>
+            </button>
+            <button id="clear-board" class="button"><span>Limpar</span></button>
+            <button id="dropper" class="button">
+              <span>
+                <img style="width: 18px; height: 18px;" src="dropper.png" alt="dropper">
+              </span>
+            </button>
+          </div>
+        </section>
+        <section id="size">
+          <div class="board-size-container">
+            <label for="board-size">Board size:</label>
+            <div class="input">
+              <button id="decrement" onclick="stepper(this)">-</button>
+              <input type="number" id="board-size" min="1" step="1" value="0" />
+              <button id="increment" onclick="stepper(this)">+</button>
+              <button id="generate-board" class="button">
+                <span>VQV</span>
+              </button>
+            </div>
+          </div>
+        </section>
+        <section id="board">
+          <h2>Quadro de Pixels</h2>
+          <div id="pixel-board"></div>
+        </section>
+      </div>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
