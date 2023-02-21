@@ -28,6 +28,14 @@
   }
 }
 
+@keyframes slide-in {
+  from {
+    transform: translate(-50%, -100%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
 
 body {
   animation: background-pan 10s linear infinite;
@@ -57,7 +65,6 @@ body {
 }
 
 .tile {
-  cursor: pointer;
   position: relative;
 }
 
@@ -77,8 +84,8 @@ h1, h2 {
 }
 
 .color, .chart-color {
-  width: 20px;
-  height: 20px;
+  width: 23px;
+  height: 23px;
   border-radius: 4px;
   display: inline-block;
   margin-right: 5px;
@@ -147,7 +154,8 @@ h1, h2 {
 #palette,
 #size,
 #board,
-#graphic {
+#graphic,
+.alert {
   text-align: center;
   color: white;
   font-weight: 700;
@@ -155,6 +163,25 @@ h1, h2 {
   border-radius: 8px;
   padding: 8px;
   min-width: 300px;
+}
+
+.alert {
+  width: 500px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(119, 124, 137, 0.979);
+  border: 1px solid var(--g3);
+  box-shadow: 0px 1px 8px 0px var(--g2);
+  text-shadow: 1px 1px 1px var(--g4);
+  font-size: 1.5em;
+  font-family: 'VT323', monospace;
+  animation: slide-in 0.3s ease-in-out forwards;
 }
 
 #palette {

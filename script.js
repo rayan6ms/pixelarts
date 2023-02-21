@@ -43,6 +43,7 @@ const boardSizeInput = document.getElementById('board-size');
 const generateBoardButton = document.getElementById('generate-board');
 const clearBoardButton = document.getElementById('clear-board');
 const dropper = document.getElementById('dropper');
+const alert = document.getElementById('alert');
 const pixelsTotal = pixelBoard.childNodes;
 
 let colors = [];
@@ -126,25 +127,68 @@ const generateRandomPalette = () => {
 // Adiciona o evento de click no botão de cores aleatórias
 randomColorButton.addEventListener('click', generateRandomPalette);
 // Adiciona o evento do botão do meio do mouse para gerar cores aleatórias
-document.addEventListener('auxclick', generateRandomPalette);
+window.onmousedown = (e) => {
+  if (e.button === 1) {
+    generateRandomPalette();
+  }
+}
+
+// Função que cria a quinta cor na paleta
+function createFifthColor() {
+  const divsBackgroundColor = Array.from(colorDivs).map((div) => div.style.backgroundColor);
+  const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
+  pixels.forEach((pixel) => {
+    pixel.addEventListener('click', handlePixelClick);
+  });
+
+  const chartColors = document.querySelectorAll('.chart-color');
+  chartColors.forEach((color) => {
+    color.addEventListener('click', handleChartColorClick);
+  });
+
+  selectedColor = null;
+  fifthColor = document.createElement('div');
+  fifthColor.classList.add('color');
+  colorDivs.forEach((div) => {
+    div.classList.remove('selected');
+  });
+  fifthColor.classList.add('selected');
+  colorPalette.appendChild(fifthColor);
+}
+
+function removeFifthColor() {
+  const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
+  pixels.forEach((pixel) => {
+    pixel.removeEventListener('click', handlePixelClick);
+  });
+
+  const chartColors = document.querySelectorAll('.chart-color');
+  chartColors.forEach((color) => {
+    color.removeEventListener('click', handleChartColorClick);
+  });
+
+  if (fifthColor) {
+    fifthColor.remove();
+    fifthColor = null;
+  }
+}
 
 // Adiciona o evento de scroll para mudar a cor selecionada
 document.addEventListener('wheel', (event) => {
   const direction = event.deltaY > 0 ? 1 : -1; // 1 para baixo, -1 para cima
 
   // encontra a div .color que está selecionada atualmente
-  const selectedDiv = Array.from(colorDivs).find((div) => div.classList.contains('selected'));
-
+  const selectedDiv = Array.from(colorPalette.children).find((div) => div.classList.contains('selected'));
   // encontra o índice da div selecionada atualmente
-  const selectedIndex = Array.from(colorDivs).indexOf(selectedDiv);
+  const selectedIndex = Array.from(colorPalette.children).indexOf(selectedDiv);
 
   // atualiza a div selecionada de acordo com a direção do scroll
   let newSelectedIndex = selectedIndex + direction;
-  if (newSelectedIndex < 0) newSelectedIndex = colorDivs.length - 1;
-  if (newSelectedIndex >= colorDivs.length) newSelectedIndex = 0;
+  if (newSelectedIndex < 0) newSelectedIndex = colorPalette.children.length - 1;
+  if (newSelectedIndex >= colorPalette.children.length) newSelectedIndex = 0;
 
   selectedDiv.classList.remove('selected');
-  colorDivs[newSelectedIndex].classList.add('selected');
+  colorPalette.children[newSelectedIndex].classList.add('selected');
   selectedColor = getComputedStyle(colorDivs[newSelectedIndex]).backgroundColor;
 });
 
@@ -307,6 +351,7 @@ function savePixelBoard() {
 }
 
 pixelBoard.addEventListener('mouseup', savePixelBoard);
+pixelBoard.addEventListener('mouseup', createChart);
 window.addEventListener('beforeunload', savePixelBoard);
 restorePixelBoard();
 
@@ -378,14 +423,14 @@ function handlePixelClick(event) {
   const pixel = event.target;
   selectedColor = pixel.style.backgroundColor;
 
-  if (!fifthColor && !Array.from(colorDivs).some((div) => div.style.backgroundColor === selectedColor)) {
+  if (!fifthColor && !Array.from(colorPalette.children).some((div) => div.style.backgroundColor === selectedColor)) {
     createFifthColor();
   }
 
   if (fifthColor) {
-    if (Array.from(colorDivs).some((div) => div.style.backgroundColor === selectedColor)) {
+    if (Array.from(colorPalette.children).some((div) => div.style.backgroundColor === selectedColor)) {
       removeFifthColor();
-      Array.from(colorDivs).forEach((div) => {
+      Array.from(colorPalette.children).forEach((div) => {
         if (div.style.backgroundColor === selectedColor) {
           div.classList.add('selected');
         }
@@ -396,20 +441,21 @@ function handlePixelClick(event) {
   }
 
   removePixelClickHandlers();
+  document.body.style.cursor = 'default'
 }
 
 function handleChartColorClick(event) {
   const chartColor = event.target;
   selectedColor = chartColor.style.backgroundColor;
 
-  if (!fifthColor && !Array.from(colorDivs).some((div) => div.style.backgroundColor === selectedColor)) {
+  if (!fifthColor && !Array.from(colorPalette.children).some((div) => div.style.backgroundColor === selectedColor)) {
     createFifthColor();
   }
 
   if (fifthColor) {
-    if (Array.from(colorDivs).some((div) => div.style.backgroundColor === selectedColor)) {
+    if (Array.from(colorPalette.children).some((div) => div.style.backgroundColor === selectedColor)) {
       removeFifthColor();
-      Array.from(colorDivs).forEach((div) => {
+      Array.from(colorPalette.children).forEach((div) => {
         if (div.style.backgroundColor === selectedColor) {
           div.classList.add('selected');
         }
@@ -420,6 +466,7 @@ function handleChartColorClick(event) {
   }
 
   removeChartColorClickHandlers();
+  document.body.style.cursor = 'default'
 }
 
 function removePixelClickHandlers() {
@@ -437,14 +484,28 @@ function removeChartColorClickHandlers() {
 }
 
 dropper.addEventListener('click', () => {
+  // Muda o cursor para o cursor de pipeta
+  document.body.style.cursor = 'url(./dropper.cur), auto';
+
+  // Adiciona a classe alert para a variável alert para que o alerta apareça, espera 4 segundos e remove a classe
+  alert.classList.add('alert');
+  setTimeout(() => {
+    alert.classList.remove('alert');
+  }, 4500);
+
   // Remove os event listeners dos pixels e chart colors
-  const chart = document.getElementById('chart');
+  const chartColors = Array.from(document.querySelectorAll('.chart-color'));
+  const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
   removePixelClickHandlers();
   removeChartColorClickHandlers();
 
   // Adiciona event listener para selecionar a cor de um pixel ao clicar
-  pixelBoard.addEventListener('click', handlePixelClick);
+  pixels.forEach((pixel) => {
+    pixel.addEventListener('click', handlePixelClick);
+  });
 
   // Adiciona event listener para selecionar a cor de um chart color ao clicar
-  chart.addEventListener('click', handleChartColorClick);
+  chartColors.forEach((chartColor) => {
+    chartColor.addEventListener('click', handleChartColorClick);
+  });
 });
