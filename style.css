@@ -118,7 +118,7 @@ h1, h2 {
   display: flex;
   position: absolute;
   top: 50%;
-  left: 40.4%;
+  left: 40%;
   transform: translate(-50%, -50%);
   justify-content: space-around;
 
@@ -166,14 +166,14 @@ h1, h2 {
 }
 
 .alert {
-  width: 500px;
+  width: 400px;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 18%;
-  left: 50%;
+  top: 25%;
+  left: 87.7%;
   transform: translate(-50%, -50%);
   background-color: rgba(119, 124, 137, 0.979);
   border: 1px solid var(--g3);
@@ -221,8 +221,10 @@ h1, h2 {
   border-top: 0;  
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  min-width: 630px;
-  min-height: 208px;
+  min-width: 300px;
+  max-width: 672px;
+  min-height: 207px;
+  max-height: 910px;
   margin: 0;
   padding: 8px;
 }

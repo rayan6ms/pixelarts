@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PixelsArt</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
   </head>
   <body>
     <div id="tiles"></div>
-    <div id="alert">Selecione uma cor do Gráfico ou Quadro de pixels</div>
+    <div id="dropper-alert">Selecione uma cor do Gráfico<br> ou Quadro de pixels</div>
+    <div id="cat-alert">Meow :3</div>
     <div id="menu">
       <div id="graphic">
         <div id="graphic-board">
@@ -24,6 +26,11 @@
             <div class="color" style="background-color: rgb(0, 0, 0)"></div>
           </div>
           <div id="buttons">
+            <button id="cat" class="button">
+              <span>
+                <img style="width: 18px; height: 18px;" src="cat.png" alt="cat">
+              </span>
+            </button>
             <button id="button-random-color" class="button">
               <span>Cores aleatórias</span>
             </button>
@@ -40,7 +47,7 @@
             <label for="board-size">Board size:</label>
             <div class="input">
               <button id="decrement" onclick="stepper(this)">-</button>
-              <input type="number" id="board-size" min="1" step="1" value="0" />
+              <input type="number" id="board-size" min="1" step="1" value="0" max="16"/>
               <button id="increment" onclick="stepper(this)">+</button>
               <button id="generate-board" class="button">
                 <span>VQV</span>
