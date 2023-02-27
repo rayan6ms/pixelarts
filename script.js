@@ -188,39 +188,45 @@ colorPalette.addEventListener('click', (event) => {
   }
 });
 
-// Adiciona o evento de mouse down no pixel board
-pixelBoard.addEventListener('mousedown', (event) => {
+function toggleBoardEvent(action) {
+  const addOrRemove = action === 'add' ? 'addEventListener' : 'removeEventListener';
+  
+  pixelBoard[addOrRemove]('mousedown', onMouseDown);
+  document[addOrRemove]('mouseup', onMouseUp);
+  pixelBoard[addOrRemove]('mousemove', onMouseMove);
+  pixelBoard[addOrRemove]('click', onClick);
+  pixelBoard[addOrRemove]('contextmenu', onContextMenu);
+}
+
+function onMouseDown(event) {
   if (event.button === 1) return;
   isMouseDown = true;
-});
+}
 
-// Adiciona o evento de mouse up fora do pixel board
-document.addEventListener('mouseup', () => {
+function onMouseUp() {
   isMouseDown = false;
-});
+}
 
-// Adiciona o evento de mouse move no pixel board
-pixelBoard.addEventListener('mousemove', (event) => {
+function onMouseMove(event) {
   if (!isMouseDown) return;
   const pixel = event.target.closest('.pixel');
   if (!pixel) return;
   pixel.style.backgroundColor = event.buttons === 1 ? selectedColor : 'white';
-});
+}
 
-// Adiciona o evento de mouse click no pixel board
-pixelBoard.addEventListener('click', (event) => {
+function onClick(event) {
   const pixel = event.target;
   if (!pixel.classList.contains('pixel')) return;
   pixel.style.backgroundColor = selectedColor;
-});
+}
 
-// Adiciona o evento de click no pixel board
-pixelBoard.addEventListener('contextmenu', (event) => {
+function onContextMenu(event) {
   const pixel = event.target;
   if (pixel.classList.contains('pixel')) {
     pixel.style.backgroundColor = 'white';
   }
-});
+}
+toggleBoardEvent('add');
 
 // Cria as bordas dos pixels
 function addBorders() {
@@ -331,7 +337,7 @@ function restorePixelBoard() {
 function createCatPixelBoard() {
   pixelBoard.innerHTML = '';
   catAlert.classList.add('alert');
-  catAlert.style.top = '35%'
+  catAlert.style.top = '35%';
   setTimeout(() => {
     catAlert.classList.remove('alert');
   }, 4500);
@@ -488,6 +494,7 @@ function handleColorClick(event) {
   }
 
   removeColorClickHandlers();
+  toggleBoardEvent('add');
   document.body.style.cursor = 'default';
 }
 
@@ -526,6 +533,7 @@ function removeColorClickHandlers() {
 }
 
 dropper.addEventListener('click', () => {
+  toggleBoardEvent('remove');
   // Muda o cursor para o cursor de pipeta
   document.body.style.cursor = 'url(./dropper.cur), auto';
 
