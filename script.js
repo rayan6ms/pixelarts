@@ -119,6 +119,15 @@ function renderColors() {
 renderColors();
 window.addEventListener('load', renderColors);
 
+// Função que chama a função createPixels(5 ** 2) caso o tamanho do quadro seja menor que 5
+function createSmallBoard() {
+  if (pixelBoard.children.length < 25) {
+    createPixels(5 ** 2);
+  }
+}
+
+window.addEventListener('load', createSmallBoard);
+
 // Função que gera uma paleta de cores aleatórias
 const generateRandomPalette = () => {
   colors = ['rgb(0, 0, 0)'];
@@ -344,6 +353,7 @@ function createCatPixelBoard() {
         )}, 1fr)`;
       });
       addBorders();
+      createChart();
     });
 }
 
