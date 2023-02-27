@@ -387,8 +387,7 @@ function savePixelBoard() {
   localStorage.setItem('pixelBoard', JSON.stringify(pixelData));
 }
 
-pixelBoard.addEventListener('mouseup', savePixelBoard);
-pixelBoard.addEventListener('mouseup', createChart);
+pixelBoard.addEventListener('mouseup', savePixelBoard); 
 window.addEventListener('beforeunload', savePixelBoard);
 restorePixelBoard();
 
@@ -456,6 +455,7 @@ document.getElementById('board-size').value = Math.sqrt(currentPixels);
 
 // Chama a função createChart toda vez que o pixelBoard for alterado
 pixelBoard.addEventListener('click', createChart);
+pixelBoard.addEventListener('mouseup', createChart);
 pixelBoard.addEventListener('contextmenu', createChart);
 pixelBoard.addEventListener('mouseleave', createChart);
 window.onload = createChart;
@@ -547,6 +547,7 @@ dropper.addEventListener('click', () => {
   const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
   const chartColors = Array.from(chartBoard.querySelectorAll('.chart-color'));
   const dropperColors = [...pixels, ...chartColors];
+  console.log(dropperColors)
   dropperColors.forEach((color) => {
     color.addEventListener('click', handleColorClick);
   });

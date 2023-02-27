@@ -218,6 +218,7 @@ h1, h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-content: flex-start;
   border-top: 0;  
   border-top-left-radius: 0;
   border-top-right-radius: 0;
