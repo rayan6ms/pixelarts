@@ -331,6 +331,7 @@ function restorePixelBoard() {
 function createCatPixelBoard() {
   pixelBoard.innerHTML = '';
   catAlert.classList.add('alert');
+  catAlert.style.top = '35%'
   setTimeout(() => {
     catAlert.classList.remove('alert');
   }, 4500);
@@ -453,24 +454,6 @@ pixelBoard.addEventListener('contextmenu', createChart);
 pixelBoard.addEventListener('mouseleave', createChart);
 window.onload = createChart;
 
-function createFifthColor() {
-  const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
-  const chartColors = Array.from(chartBoard.querySelectorAll('.chart-color'));
-  const dropperColors = [...pixels, ...chartColors];
-  dropperColors.forEach((color) => {
-    color.addEventListener('click', handleColorClick);
-  });
-
-  fifthColor = document.createElement('div');
-  fifthColor.classList.add('color');
-  Array.from(colorPalette.children).forEach((div) => {
-    div.classList.remove('selected');
-  });
-  fifthColor.classList.add('selected');
-  fifthColor.style.backgroundColor = selectedColor;
-  colorPalette.appendChild(fifthColor);
-}
-
 function handleColorClick(event) {
   const color = event.target;
   selectedColor = color.style.backgroundColor;
@@ -506,6 +489,24 @@ function handleColorClick(event) {
 
   removeColorClickHandlers();
   document.body.style.cursor = 'default';
+}
+
+function createFifthColor() {
+  const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
+  const chartColors = Array.from(chartBoard.querySelectorAll('.chart-color'));
+  const dropperColors = [...pixels, ...chartColors];
+  dropperColors.forEach((color) => {
+    color.addEventListener('click', handleColorClick);
+  });
+
+  fifthColor = document.createElement('div');
+  fifthColor.classList.add('color');
+  Array.from(colorPalette.children).forEach((div) => {
+    div.classList.remove('selected');
+  });
+  fifthColor.classList.add('selected');
+  fifthColor.style.backgroundColor = selectedColor;
+  colorPalette.appendChild(fifthColor);
 }
 
 function removeFifthColor() {
