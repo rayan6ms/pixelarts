@@ -470,9 +470,12 @@ function handleColorClick(event) {
   );
 
   if (!fifthColor && !selectedColorInPalette) {
-    createFifthColor();    
-  } else if (fifthColor ) {
-    if (selectedColorInPalette && fifthColor.style.backgroundColor !== selectedColor) {
+    createFifthColor();
+  } else if (fifthColor) {
+    if (
+      selectedColorInPalette &&
+      fifthColor.style.backgroundColor !== selectedColor
+    ) {
       removeFifthColor();
       Array.from(colorPalette.children).forEach((div) => {
         if (div.style.backgroundColor === selectedColor) {
@@ -482,6 +485,13 @@ function handleColorClick(event) {
     } else {
       fifthColor.style.backgroundColor = selectedColor;
     }
+  } else {
+    Array.from(colorPalette.children).forEach((div) => {
+      div.classList.remove('selected');
+      if (div.style.backgroundColor === selectedColor) {
+        div.classList.add('selected');
+      }
+    });
   }
 
   removeColorClickHandlers();
