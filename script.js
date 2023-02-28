@@ -547,7 +547,6 @@ dropper.addEventListener('click', () => {
   const pixels = Array.from(pixelBoard.querySelectorAll('.pixel'));
   const chartColors = Array.from(chartBoard.querySelectorAll('.chart-color'));
   const dropperColors = [...pixels, ...chartColors];
-  console.log(dropperColors)
   dropperColors.forEach((color) => {
     color.addEventListener('click', handleColorClick);
   });
